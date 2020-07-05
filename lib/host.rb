@@ -14,7 +14,7 @@ class Host
   
   def choose_word
     puts "Choosing word..."
-    @secret_word = contents.scan(/\w+/).select { |word| word.length.between?(5, 12) }.sample
+    @secret_word = contents.scan(/\w+/).select { |word| word.length.between?(5, 12) }.sample.downcase
     puts "Secret word is #{@secret_word}"
   end
 end
