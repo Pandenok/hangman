@@ -1,96 +1,96 @@
 module Gallow
-  def initial_setup(secret_word, guess)
+  def draw_gallow(pattern, guess, misses)
     <<~HEREDOC
     +---+     
-    |        WORD:  #{secret_word}
+    |        WORD:   #{pattern.join(' ').upcase}
     |          
-    |        GUESS: #{guess}
+    |        GUESS:  #{guess.upcase}
     |
-    |
+    |        MISSES: #{misses.join(', ').upcase}  
     =========
     HEREDOC
   end
   
-  def draw_head(secret_word)
+  def draw_head(pattern, guess, misses)
     <<~HEREDOC
     +---+     
-    |         WORD:   #{secret_word}  
+    |         WORD:   #{pattern.join(' ').upcase}  
     |   0       
-    |         GUESS:  
+    |         GUESS:  #{guess.upcase}
     |         
-    |         MISSES:  
+    |         MISSES: #{misses.join(', ').upcase}
     =========
     HEREDOC
   end
   
-  def draw_body(secret_word)
+  def draw_body(pattern, guess, misses)
     <<~HEREDOC
     +---+     
-    |         WORD:  #{secret_word}
+    |         WORD:   #{pattern.join(' ').upcase}
     |   0       
-    |   |     GUESS:
+    |   |     GUESS:  #{guess.upcase}
     |         
-    |         MISSES:
+    |         MISSES: #{misses.join(', ').upcase}
     =========
     HEREDOC
   end
   
-  def draw_right_arm(secret_word)
+  def draw_right_arm(pattern, guess, misses)
     <<~HEREDOC
     +---+     
-    |         WORD:  #{secret_word}  
+    |          WORD:   #{pattern.join(' ').upcase}  
     |   0        
-    |   |\    GUESS:  
+    |   |\\   GUESS:  #{guess.upcase}  
     |         
-    |         MISSES:
+    |          MISSES: #{misses.join(', ').upcase}
     =========
     HEREDOC
   end
   
-  def draw_left_arm(secret_word)
+  def draw_left_arm(pattern, guess, misses)
     <<~HEREDOC
     +---+     
-    |         WORD:  #{secret_word}
+    |          WORD:   #{pattern.join(' ').upcase}
     |   0       
-    |  /|\    GUESS:
+    |  /|\\   GUESS:  #{guess.upcase}
     |         
-    |         MISSES:
+    |          MISSES: #{misses.join(', ').upcase}
     =========
     HEREDOC
   end
   
-  def draw_right_leg(secret_word)
+  def draw_right_leg(pattern, guess, misses)
     <<~HEREDOC
     +---+     
-    |         WORD:  #{secret_word}
+    |          WORD:   #{pattern.join(' ').upcase}
     |   0       
-    |  /|\    GUESS:
-    |    \     
-    |         MISSES:
+    |  /|\\   GUESS:  #{guess.upcase}
+    |    \\     
+    |          MISSES: #{misses.join(', ').upcase}
     =========
     HEREDOC
   end
   
-  def draw_left_leg(secret_word)
+  def draw_left_leg(pattern, guess, misses)
     <<~HEREDOC
     +---+     
-    |         WORD:  #{secret_word}
+    |          WORD:   #{pattern.join(' ').upcase}
     |   0       
-    |  /|\    GUESS:
-    |  / \     
-    |         MISSES:
+    |  /|\\   GUESS:  #{guess.upcase}
+    |  / \\     
+    |          MISSES: #{misses.join(', ').upcase}
     =========
     HEREDOC
   end
   
-  def draw_noose(secret_word)
+  def draw_noose(pattern, guess, misses)
     <<~HEREDOC
     +---+     
-    |   |     WORD:  #{secret_word}
+    |   |      WORD:   #{pattern.join(' ').upcase}
     |   0      
-    |  /|\    GUESS:
-    |  / \     
-    |         MISSES:
+    |  /|\\   GUESS:  #{guess.upcase}
+    |  / \\     
+    |          MISSES: #{misses.join(', ').upcase}
     =========
     HEREDOC
   end
