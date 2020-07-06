@@ -1,10 +1,12 @@
 require './gallow'
 require './display'
+require './colorable'
 require 'yaml'
 
 class Game
   include Gallow
   include Display
+  include Colorable
 
   attr_reader :host, :board, :guesser
 
@@ -54,19 +56,20 @@ class Game
   def play
     puts "Ready to play!"
     until game_over? do
-
-      puts "Press 2 to save current game"
-      @player_input = gets.chomp.to_i
-      save_game if @player_input.eql?(2)
-
-      play_round
+      print display_guess_prompt
+      @player_input = gets.chomp
+      play_round(@player_input) unless request_save_game?(@player_input)
       break if board.word_guessed?(host.secret_word, guesser.guess)
     end
     repeat_game
   end
 
-  def play_round
-    guesser.make_guess
+  def request_save_game?(input)
+    save_game if input.to_i.eql?(2)
+  end
+
+  def play_round(input)
+    guesser.make_guess(input)
     board.analyse_guess(host.secret_word, guesser.guess)
     puts board.draw(board.misses.size, guesser.guess)
   end
@@ -89,6 +92,7 @@ class Game
   end
 
   def save_game
+    puts "Game saved"
     File.open("./my_game/game.yaml", 'w') { |file| file << to_yaml }
   end
 
