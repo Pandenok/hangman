@@ -1,6 +1,11 @@
+require './colorable'
+
 class Board
   include Gallow
-  PLACEHOLDER = ' _ '
+  include Display
+  include Colorable
+
+  PLACEHOLDER = " _ "
   
   attr_accessor :pattern, :misses
   
@@ -10,7 +15,6 @@ class Board
   end
   
   def hide(secret_word)
-    puts "You secret word looks like this: "
     @pattern = secret_word.split('').map { |letter| letter = PLACEHOLDER }
   end
 
@@ -24,12 +28,15 @@ class Board
   
   def unhide_right_guess(secret_word, guess, pattern)
     secret_word.split('').each_with_index do |letter, idx|
-      pattern[idx] = letter if letter.eql?(guess)
+      if letter.eql?(guess)
+        letter = green(underline("#{letter}"))
+        pattern[idx] = letter 
+      end
     end
   end
 
   def unhide_secret_word(secret_word, guess, pattern)
-    @pattern = secret_word.split('').map { |letter| letter }
+    @pattern = secret_word.split('').map { |letter| green(underline("#{letter}")) }
   end
 
   def analyse_guess(secret_word, guess)
