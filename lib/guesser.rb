@@ -3,18 +3,20 @@ class Guesser
 
   attr_reader :guess
 
-  def initialize; end
+  def initialize
+    @guess = guess
+  end
   
   def make_guess(input)
-    input = input.downcase
+    input = input.upcase
     @guess = input unless valid_input?(input)
   end
 
   def valid_input?(input)
-    until input.match?(/[a-z2]/)
+    until input.match?(/[A-Z20]/)
       puts display_error_invalid_input
       print display_valid_input_example
-      input = gets.chomp.downcase
+      input = gets.chomp.upcase
     end
     @guess = input
   end
