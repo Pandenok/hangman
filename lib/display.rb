@@ -1,4 +1,6 @@
 module Display
+  include Colorable
+
   def display_main_menu
     system 'clear'
     <<~HEREDOC.chomp
@@ -54,7 +56,7 @@ module Display
 
       Press #{bold("2")} anytime you want to save your current game or 
             #{bold("0")} to go back to main menu.
-            
+
     HEREDOC
   end
 
@@ -63,7 +65,7 @@ module Display
   end
 
   def display_error_invalid_input
-    print "\nERROR: invalid input"
+    print "\n#{bg_red("ERROR")}: #{red("invalid input")}"
   end
 
   def display_valid_input_example
