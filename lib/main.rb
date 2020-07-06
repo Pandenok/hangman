@@ -1,3 +1,4 @@
+require_relative 'colorable.rb'
 require_relative 'game.rb'
 require_relative 'display.rb'
 require_relative 'guesser.rb'
