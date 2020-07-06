@@ -13,7 +13,6 @@ class Game
   MAX_ATTEMPTS = 7 
 
   def initialize
-    puts "Game initialized."
     @host = Host.new
     @board = Board.new
     @guesser = Guesser.new
@@ -34,8 +33,7 @@ class Game
   def main_menu_options(input)
     case input
     when 1
-      host_actions
-      puts board.hide(host.secret_word).join(' ')
+      prepare_game
       play
     when 2
       load_game.play
@@ -44,9 +42,10 @@ class Game
     end
   end
 
-  def host_actions #preparations
+  def prepare_game
     host.load_library
     host.choose_word
+    board.hide(host.secret_word).join(' ')
   end
 
   def menu_quit
@@ -54,18 +53,26 @@ class Game
   end
 
   def play
-    puts "Ready to play!"
+    puts display_game_shortcuts
+    puts display_game_start
+    puts board.draw(board.misses.size, guesser.guess)
     until game_over? do
       print display_guess_prompt
       @player_input = gets.chomp
-      play_round(@player_input) unless request_save_game?(@player_input)
+      play_round(@player_input) unless request_save_game?(@player_input) 
+      # || stop_game?(@player_input)
       break if board.word_guessed?(host.secret_word, guesser.guess)
     end
+    game_finished
     repeat_game
   end
 
   def request_save_game?(input)
     save_game if input.to_i.eql?(2)
+  end
+
+  def stop_game?(input)
+    main_menu if input.to_i.eql?(0)
   end
 
   def play_round(input)
@@ -76,7 +83,6 @@ class Game
 
   def game_over?
     board.misses.size.eql?(MAX_ATTEMPTS)
-    # puts "Game Over! Play again?"
   end
 
   def to_yaml
@@ -85,14 +91,10 @@ class Game
 
   def from_yaml(game)
     game_file = YAML.load(File.read(game))
-    # p game_file
-    # board = game_file[:board]
-    # secret_word = game_file[:secret_word]
-    # guesser = game_file[:guesser]
   end
 
   def save_game
-    puts "Game saved"
+    puts display_report_game_saved
     File.open("./my_game/game.yaml", 'w') { |file| file << to_yaml }
   end
 
@@ -100,11 +102,14 @@ class Game
     from_yaml("./my_game/game.yaml")
   end
 
+  def game_finished
+    game_over? ? (puts display_game_over) : (puts display_congratulations)
+  end
+
   def repeat_game
-    puts "One more round?"
-    # print display_play_again
+    print display_play_again
     input = gets.chomp
-    input.downcase.eql?('y') ? Game.new : (puts "Goodbye!")
+    input.downcase.eql?('y') ? Game.new : (puts display_closing_greeting)
   end
 
 end
