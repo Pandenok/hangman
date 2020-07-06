@@ -15,7 +15,7 @@ class Board
   end
   
   def hide(secret_word)
-    @pattern = secret_word.split('').map { |letter| letter = PLACEHOLDER }
+    @pattern = secret_word.split('').map { |letter| letter = bg_gray("#{PLACEHOLDER}") }
   end
 
   def letter_guessed?(secret_word, guess)
