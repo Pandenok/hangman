@@ -1,20 +1,21 @@
 class Guesser
+  include Display
+
   attr_reader :guess
 
   def initialize; end
   
-  def make_guess
-    print "Make guess: "
-    @player_input = gets.chomp.downcase
-    valid_input?(@player_input)
-    @guess = @player_input
+  def make_guess(input)
+    input = input.downcase
+    @guess = input unless valid_input?(input)
   end
 
-  def valid_input?(player_input)
-    until player_input.match?(/[a-z]/)
-      puts "Invalid input"
-      puts "Please type one letter of the latin alphabet"
-      player_input = gets.chomp.downcase
+  def valid_input?(input)
+    until input.match?(/[a-z2]/)
+      puts display_error_invalid_input
+      print display_valid_input_example
+      input = gets.chomp.downcase
     end
+    @guess = input
   end
 end
