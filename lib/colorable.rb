@@ -1,7 +1,9 @@
 module Colorable
   def black(text);      "\e[30m#{text}\e[0m" end
+  def lt_red(text);     "\e[91m#{text}\e[0m" end
   def red(text);        "\e[31m#{text}\e[0m" end
   def green(text);      "\e[32m#{text}\e[0m" end
+  def lt_yellow(text);  "\e[93m#{text}\e[0m" end
   def orange(text);     "\e[33m#{text}\e[0m" end
   def blue(text);       "\e[34m#{text}\e[0m" end
   def magenta(text);    "\e[35m#{text}\e[0m" end
