@@ -10,7 +10,7 @@ class Board
   end
   
   def hide(secret_word)
-    puts "Secret word is ready to be guessed."
+    puts "You secret word looks like this: "
     @pattern = secret_word.split('').map { |letter| letter = PLACEHOLDER }
   end
 

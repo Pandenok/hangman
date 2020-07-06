@@ -6,10 +6,15 @@ class Game
   include Gallow
   include Display
 
+  attr_reader :host, :board, :guesser
+
   MAX_ATTEMPTS = 7 
 
   def initialize
     puts "Game initialized."
+    @host = Host.new
+    @board = Board.new
+    @guesser = Guesser.new
     main_menu
   end
 
@@ -27,13 +32,19 @@ class Game
   def main_menu_options(input)
     case input
     when 1
+      host_actions
+      puts board.hide(host.secret_word).join(' ')
       play
     when 2
-      load_game
-      # p load_game
+      load_game.play
     when 3
       menu_quit
     end
+  end
+
+  def host_actions #preparations
+    host.load_library
+    host.choose_word
   end
 
   def menu_quit
@@ -41,53 +52,44 @@ class Game
   end
 
   def play
-    host = Host.new
-    board = Board.new
-    guesser = Guesser.new
     puts "Ready to play!"
-    host.load_library
-    host.choose_word
-    puts "You secret word looks like this: " + board.hide(host.secret_word).join(' ')
-    until game_over?(board) do
+    until game_over? do
 
       puts "Press 2 to save current game"
       @player_input = gets.chomp.to_i
-      save_game(board, host, guesser) if @player_input.eql?(2)
+      save_game if @player_input.eql?(2)
 
-      play_round(guesser, board, host.secret_word)
+      play_round
       break if board.word_guessed?(host.secret_word, guesser.guess)
     end
     repeat_game
   end
 
-  def play_round(guesser, board, secret_word)
+  def play_round
     guesser.make_guess
-    board.analyse_guess(secret_word, guesser.guess)
+    board.analyse_guess(host.secret_word, guesser.guess)
     puts board.draw(board.misses.size, guesser.guess)
   end
 
-  def game_over?(board)
+  def game_over?
     board.misses.size.eql?(MAX_ATTEMPTS)
     # puts "Game Over! Play again?"
   end
 
-  def to_yaml(board, host, guesser)
-    YAML.dump ({
-      :board => board,
-      :secret_word => host.secret_word,
-      :guesser => guesser,
-    })
+  def to_yaml
+    YAML::dump(self)
   end
 
   def from_yaml(game)
     game_file = YAML.load(File.read(game))
-    board = game_file[:board]
-    secret_word = game_file[:secret_word]
-    guesser = game_file[:guesser]
+    # p game_file
+    # board = game_file[:board]
+    # secret_word = game_file[:secret_word]
+    # guesser = game_file[:guesser]
   end
 
-  def save_game(board, host, guesser)
-    File.open("./my_game/game.yaml", 'w') { |file| file << to_yaml(board, host, guesser) }
+  def save_game
+    File.open("./my_game/game.yaml", 'w') { |file| file << to_yaml }
   end
 
   def load_game
