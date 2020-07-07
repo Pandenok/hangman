@@ -103,5 +103,6 @@ module Display
 
   def display_closing_greeting
     puts "\nThanks and have a nice day!"
+    exit
   end
 end
