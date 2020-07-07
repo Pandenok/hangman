@@ -10,7 +10,7 @@ class Game
 
   attr_reader :host, :board, :guesser
 
-  MAX_ATTEMPTS = 7 
+  MAX_ATTEMPTS = 7
 
   def initialize
     @host = Host.new
@@ -21,7 +21,6 @@ class Game
 
   def main_menu
     print display_main_menu
-    continue = true
     input = gets.chomp.to_i
     until input.between?(1, 3)
       puts display_error_invalid_input
@@ -33,48 +32,68 @@ class Game
   def main_menu_options(input)
     case input
     when 1
-      prepare_game
-      play
+      play_game_menu
     when 2
-      print display_game_loading
-      load_game.play
+      load_game_menu
     when 3
       menu_quit
     end
   end
 
-  def prepare_game
+  def play_game_menu
+    setup_game_components
+    setup_input_interface
+    play
+  end
+
+  def load_game_menu
+    print display_game_loading
+    setup_input_interface
+    load_game.play
+  end
+
+  def setup_game_components
     host.load_library
     host.choose_word
     board.hide(host.secret_word).join(' ')
   end
 
-  def menu_quit
-    continue = false
-  end
-
-  def play
+  def setup_input_interface
     puts display_game_shortcuts
     puts display_game_start
     puts board.draw(board.misses.size, guesser.guess)
-    until game_over? do
+  end
+
+  def menu_quit
+    puts display_closing_greeting
+    exit
+  end
+
+  def play
+    until game_over?
       print display_guess_prompt
       @player_input = gets.chomp
-      play_round(@player_input) unless request_save_game?(@player_input) || stop_game?(@player_input) || board.letter_already_tried?(@player_input)
+      play_round(@player_input) unless restrictions?(@player_input)
       break if board.word_guessed?(host.secret_word, guesser.guess)
     end
     game_finished
     repeat_game
   end
 
+  def restrictions?(input)
+    request_save_game?(input) ||
+      pause_game?(input) ||
+      board.letter_already_tried?(input)
+  end
+
   def request_save_game?(input)
     save_game if input.to_i.eql?(2)
   end
 
-  def stop_game?(input)
+  def pause_game?(input)
     main_menu if input.to_i.eql?(5)
   end
-
+  
   def play_round(input)
     guesser.make_guess(input)
     board.analyse_guess(host.secret_word, guesser.guess)
@@ -90,16 +109,16 @@ class Game
   end
 
   def from_yaml(game)
-    game_file = YAML.load(File.read(game))
+    YAML.load(File.read(game))
   end
 
   def save_game
     puts display_report_game_saved
-    File.open("./my_game/game.yaml", 'w') { |file| file << to_yaml }
+    File.open('./my_game/game.yaml', 'w') { |file| file << to_yaml }
   end
 
   def load_game
-    from_yaml("./my_game/game.yaml")
+    from_yaml('./my_game/game.yaml')
   end
 
   def game_finished
@@ -111,5 +130,4 @@ class Game
     input = gets.chomp
     input.downcase.eql?('y') ? Game.new : (puts display_closing_greeting)
   end
-
 end
