@@ -25,6 +25,14 @@ class Board
   def word_guessed?(secret_word, guess)
     guess.eql?(secret_word)
   end
+
+  def letter_already_tried?(input)
+    if pattern.include?(green(underline("#{input.upcase}"))) || 
+        misses.include?(input.upcase)
+      print display_notice_letter_tried(input)
+      input
+    end
+  end
   
   def unhide_right_guess(secret_word, guess, pattern)
     secret_word.split('').each_with_index do |letter, idx|
