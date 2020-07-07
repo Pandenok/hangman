@@ -12,7 +12,9 @@ If you’re unfamiliar with how Hangman works, see Wikipedia, or go straight to 
 
 - CLI — Command Line Applications/Interface
 
-![Hangman in action](img/hangman.gif)
+<!-- ![Hangman in action](img/hangman.gif) -->
+
+<img src="img/hangman.gif" alt="Hangman in action" width="400" height="400">
 
 ### Pseudocode
 
