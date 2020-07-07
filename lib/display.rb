@@ -89,7 +89,7 @@ module Display
 
   def display_game_over(secret_word)
     puts "\nPerished..."
-    puts "Secret word was #{@secret_word}"
+    puts "Secret word was #{secret_word}"
     # puts "Death is not a hunter unbeknownst to its prey, one is always aware that it lies in wait."
   end
 
