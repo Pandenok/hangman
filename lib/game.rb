@@ -36,6 +36,7 @@ class Game
       prepare_game
       play
     when 2
+      print display_game_loading
       load_game.play
     when 3
       menu_quit
@@ -59,8 +60,7 @@ class Game
     until game_over? do
       print display_guess_prompt
       @player_input = gets.chomp
-      play_round(@player_input) unless request_save_game?(@player_input) 
-      # || stop_game?(@player_input)
+      play_round(@player_input) unless request_save_game?(@player_input) || stop_game?(@player_input) || board.letter_already_tried?(@player_input)
       break if board.word_guessed?(host.secret_word, guesser.guess)
     end
     game_finished
@@ -72,7 +72,7 @@ class Game
   end
 
   def stop_game?(input)
-    main_menu if input.to_i.eql?(0)
+    main_menu if input.to_i.eql?(5)
   end
 
   def play_round(input)
