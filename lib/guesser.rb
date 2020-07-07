@@ -6,7 +6,7 @@ class Guesser
   def initialize
     @guess = guess
   end
-  
+
   def make_guess(input)
     input = input.upcase
     @guess = input unless valid_input?(input)
