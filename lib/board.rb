@@ -23,7 +23,7 @@ class Board
   end
 
   def word_guessed?(secret_word, guess)
-    guess.eql?(secret_word)
+    guess.eql?(secret_word) || !(pattern.include?(bg_gray("#{PLACEHOLDER}")))
   end
 
   def letter_already_tried?(input)

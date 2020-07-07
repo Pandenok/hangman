@@ -122,7 +122,7 @@ class Game
   end
 
   def game_finished
-    game_over? ? (puts display_game_over) : (puts display_congratulations)
+    game_over? ? (puts display_game_over(host.secret_word)) : (puts display_congratulations)
   end
 
   def repeat_game

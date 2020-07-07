@@ -87,8 +87,9 @@ module Display
     print "A guess must contain only the latin alphabet letters (A-Z and a-z).\nPlease try again: "
   end
 
-  def display_game_over
+  def display_game_over(secret_word)
     puts "\nPerished..."
+    puts "Secret word was #{@secret_word}"
     # puts "Death is not a hunter unbeknownst to its prey, one is always aware that it lies in wait."
   end
 

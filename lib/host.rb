@@ -16,6 +16,6 @@ class Host
   def choose_word
     puts display_word_generating
     @secret_word = contents.scan(/\w+/).select { |word| word.length.between?(5, 12) }.sample.upcase
-    puts "Secret word is #{@secret_word}"
+    # puts "Secret word is #{@secret_word}"
   end
 end
