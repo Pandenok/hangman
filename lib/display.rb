@@ -35,10 +35,21 @@ module Display
     puts "#{green("Done!")} "
   end
 
+  def display_game_loading
+    system 'clear'
+    print "Loading your game "
+    12.times do
+      sleep(0.2)
+      print "."
+    end
+    puts "#{green("Done!")} "
+  end
+
   def display_game_start
     <<~HEREDOC
       And here you are... on a cold November day of rain, snow and hail...
-      with the rope around your neck... You still have a chance to escape...
+      standing on a gallow... You still have a chance to escape...
+      until they put the rope around your neck... 
       Guess the secret word and you'll be free!
     HEREDOC
   end
@@ -55,17 +66,21 @@ module Display
     <<~HEREDOC
 
       Press #{bold("2")} anytime you want to save your current game or 
-            #{bold("0")} to go back to main menu.
+            #{bold("5")} to go back to main menu.
 
     HEREDOC
   end
 
   def display_report_game_saved
-    puts "\nYour game was successfully saved."
+    print "\nYour game was successfully saved."
   end
 
   def display_error_invalid_input
     print "\n#{bg_red("ERROR")}: #{red("invalid input")}"
+  end
+
+  def display_notice_letter_tried(input)
+    puts "Hey, it ain't my life on the line!\nYou have already tried #{input.upcase}... All right, now, stay sharp!"
   end
 
   def display_valid_input_example
