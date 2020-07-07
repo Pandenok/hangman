@@ -13,7 +13,7 @@ class Guesser
   end
 
   def valid_input?(input)
-    until input.match?(/[A-Z20]/)
+    until input.match?(/[A-Z25]/)
       puts display_error_invalid_input
       print display_valid_input_example
       input = gets.chomp.upcase
