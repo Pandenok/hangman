@@ -101,7 +101,7 @@ module Display
     print "\nOne more round?\nPress 'y' for yes (or any other key for no): "
   end
 
-  def display_closing_greeting
+  def display_farewell
     puts "\nThanks and have a nice day!"
     exit
   end
