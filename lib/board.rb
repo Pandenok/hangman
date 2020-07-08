@@ -10,7 +10,7 @@ class Board
   attr_accessor :pattern, :misses
 
   def initialize
-    @pattern = pattern
+    @pattern = []
     @misses = []
   end
 

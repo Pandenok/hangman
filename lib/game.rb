@@ -42,13 +42,11 @@ class Game
 
   def play_game_menu
     setup_game_components
-    setup_input_interface
     play
   end
 
   def load_game_menu
     print display_game_loading
-    setup_input_interface
     load_game.play
   end
 
@@ -70,6 +68,7 @@ class Game
   end
 
   def play
+    setup_input_interface
     until game_over?
       print display_guess_prompt
       @player_input = gets.chomp
@@ -128,6 +127,6 @@ class Game
   def repeat_game
     print display_play_again
     input = gets.chomp
-    input.downcase.eql?('y') ? Game.new : (puts display_closing_greeting)
+    input.downcase.eql?('y') ? Game.new : (puts display_farewell)
   end
 end
